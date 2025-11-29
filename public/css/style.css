@@ -1,3 +1,4 @@
+/* ====== BASE STYLES ====== */
 body {
     font-family: "Plus Jakarta Sans", sans-serif !important;
     display: flex;
@@ -9,6 +10,7 @@ body {
     flex: 1;
 }
 
+/* ====== NAVBAR ====== */
 .navbar {
     height: 5rem;
     background-color: white;
@@ -23,48 +25,72 @@ body {
     color: #222222 !important;
 }
 
-/* Footer */
-.f-info-links a {
-    text-decoration: none;
-    color: #222222;
-}
-
-.f-info-links a:hover {
-    text-decoration: underline;
-}
-
-.f-info-links, .f-info-socials, .f-info-brand {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.f-info-socials i {
-    font-size: 1.2rem;
-    margin-right: 1rem;
-}
-
+/* ====== FOOTER ====== */
 .f-info {
     text-align: center;
-    height: 8rem;
     background-color: #ebebeb;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: space-evenly;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 0.5rem;
 }
 
-/* Cards */
+.f-info-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem; /* space between social icons */
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.f-info-socials i {
+    font-size: 1.2rem;
+}
+
+.f-info-brand {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.f-info-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem; /* space between links */
+    width: 100%;
+}
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+    transition: color 0.2s ease-in-out;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+    color: #fe424d; /* optional hover color */
+}
+
+/* ====== CARDS ====== */
 .listing-card {
     border: none !important;
     margin-bottom: 2rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.listing-card:hover {
+    transform: scale(1.03);
 }
 
 .card-img-top {
     border-radius: 1rem;
     width: 100% !important;
     object-fit: cover !important;
+    height: 20rem; /* default for large screens */
 }
 
 .card-body {
@@ -73,6 +99,8 @@ body {
 
 .card-text p {
     font-weight: 400 !important;
+    font-size: 0.9rem;
+    margin: 0;
 }
 
 .listing-link {
@@ -89,17 +117,18 @@ body {
     background-color: white;
 }
 
-/* Map */
+/* ====== MAP ====== */
 #map { 
     height: 400px;
     width: 80vh; 
 }
 
-/* FILTERS */
+/* ====== FILTERS ====== */
 #filters {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    gap: 1rem;
 }
 
 .filter {
@@ -126,14 +155,15 @@ body {
     border: 1px solid black;
     border-radius: 1rem;
     height: 3rem;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     margin-left: 0rem;
     display: flex;
     align-items: center;
 }
 
-/* ⭐⭐⭐ RESPONSIVE ⭐⭐⭐ */
+/* ====== RESPONSIVE ====== */
 
+/* Medium devices and below */
 @media (max-width: 992px) {
     .filter {
         margin-right: 1.2rem;
@@ -144,8 +174,12 @@ body {
     .filter p {
         font-size: 0.75rem;
     }
+    .card-img-top {
+        height: 16rem;
+    }
 }
 
+/* Small devices and below */
 @media (max-width: 768px) {
     #filters {
         justify-content: center;
@@ -164,16 +198,49 @@ body {
         width: 100%;
         justify-content: center;
     }
+    .card-img-top {
+        height: 14rem;
+    }
 }
 
-@media (max-width: 480px) {
+/* Extra small devices / mobile */
+@media (max-width: 576px) {
+    #filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+    #filters::-webkit-scrollbar {
+        display: none;
+    }
+    .filter {
+        flex: 0 0 auto;
+        width: 70px;
+        margin-right: 1rem;
+    }
     .filter i {
         font-size: 1.1rem;
     }
     .filter p {
         font-size: 0.65rem;
     }
-    #filters {
+    .tax-toggle {
+        flex: 0 0 auto;
+    }
+    .card-img-top {
+        height: 12rem;
+    }
+
+    /* Footer adjustments for mobile */
+    .f-info {
         gap: 0.5rem;
+    }
+    .f-info-brand {
+        font-size: 0.85rem;
+    }
+    .f-info-links {
+        gap: 1rem;
     }
 }
