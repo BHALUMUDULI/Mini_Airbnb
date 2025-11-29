@@ -12,7 +12,7 @@ module.exports.signup = async (req, res, next) => {
 
         return req.login(registeredUser, (err) => {
             if (err) return next(err);
-            req.flash("success", "Welcome to WanderLust");
+            req.flash("success", "Welcome to Mini_Airbnb");
             return res.redirect("/listings");
         });
 
@@ -27,7 +27,7 @@ module.exports.renderLoginForm = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
-    req.flash("success", "Welcome back to WanderLust!");
+    req.flash("success", "Welcome back to Mini_Airbnb!");
     const redirectUrl = res.locals.redirectUrl || "/listings";
     return res.redirect(redirectUrl);
 };
