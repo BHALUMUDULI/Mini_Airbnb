@@ -32,7 +32,7 @@ body {
     font-weight: 500;
 }
 
-/* Search Form - Base Style */
+/* Search Form - BASE STYLE (Used for mobile/offcanvas) */
 .search-form {
     max-width: 260px;
     width: 100%;
@@ -63,8 +63,11 @@ body {
     font-size: 0.95rem;
 }
 
-/* Desktop Search Bar Centering */
+/* -------------------------------------------
+   Desktop Search Bar Centering (md and up)
+------------------------------------------- */
 @media (min-width: 768px) {
+    /* Style the centered desktop search container */
     .navbar .search-form {
         max-width: 450px; 
         border: 1px solid #ccc; 
@@ -79,23 +82,44 @@ body {
     }
 
     .navbar .search-inp {
+        height: auto;
         border: none !important;
+        box-shadow: none !important;
         background-color: transparent !important;
         padding: 0 15px; 
         flex-grow: 1; 
+        font-size: 0.9rem;
+        border-radius: 0;
+    }
+
+    .navbar .search-btn {
+        flex-shrink: 0;
+        margin-left: 0 !important;
     }
 }
 
-/* Mobile Navbar Fixes */
+
+/* -------------------------------------------
+   Mobile Navbar (Offcanvas & Collapse Fixes)
+------------------------------------------- */
 @media (max-width: 768px) {
     .search-form {
         max-width: 100%;
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     .offcanvas-body .search-form {
-        border: 1px solid #ccc; 
-        border-radius: 24px;
-        padding: 5px;
+         border: 1px solid #ccc; 
+         border-radius: 24px;
+         padding: 5px;
+    }
+    .offcanvas-body .search-inp {
+        border: none !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        padding-left: 10px;
+        border-radius: 0;
     }
 
     .nav-actions .action-link {
@@ -103,6 +127,7 @@ body {
         margin-top: 7px;
     }
 }
+
 
 /* =========================================================
    FOOTER
@@ -124,28 +149,36 @@ body {
     align-items: center;
     gap: 1rem;
     width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.f-info-socials i {
+    font-size: 1.2rem;
 }
 
 .f-info-brand {
     width: 100%;
+    margin-bottom: 0.5rem;
     font-size: 0.9rem;
 }
 
 .f-info-links {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1.5rem;
     width: 100%;
 }
 
 .f-info-links a {
-    color: #222222;
     text-decoration: none;
+    color: #222222;
+    transition: color 0.2s ease-in-out;
 }
 
 .f-info-links a:hover {
-    color: #fe424d;
     text-decoration: underline;
+    color: #fe424d;
 }
 
 /* =========================================================
@@ -168,6 +201,30 @@ body {
     height: 20rem;
 }
 
+.card-body {
+    padding: 0 !important;
+}
+
+.card-text p {
+    font-weight: 400 !important;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.listing-link {
+    text-decoration: none;
+}
+
+.card-img-overlay {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
+
 /* =========================================================
    MAP
 ========================================================= */
@@ -177,7 +234,7 @@ body {
 }
 
 /* =========================================================
-   FILTERS
+   FILTERS (Horizontal Scrolling Fix)
 ========================================================= */
 #filters {
     display: flex;
@@ -186,20 +243,23 @@ body {
     padding-bottom: 0.5rem;
 }
 
+/* Container for the actual filter icons, enabling scrolling */
 .filter-scroll-container {
-    flex-grow: 1;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    scrollbar-width: none;
+    flex-grow: 1; 
+    overflow-x: auto; 
+    flex-wrap: nowrap; 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
     padding-right: 1rem;
 }
 
+/* Hide scrollbar for Webkit browsers (Chrome, Safari) */
 .filter-scroll-container::-webkit-scrollbar {
     display: none;
 }
 
 .filter {
-    flex-shrink: 0;
+    flex-shrink: 0; 
     text-align: center;
     margin-right: 2rem; 
     opacity: 0.7;
@@ -215,55 +275,97 @@ body {
     font-size: 0.8rem;
 }
 
-/* =========================================================
-   TAX TOGGLE FIXES (IMPORTANT)
-========================================================= */
+.tax-info {
+    display: none;
+}
+
 .tax-toggle {
-    border: 1px solid #d1d1d1;
-    border-radius: 20px;
-    padding: 0.4rem 0.9rem;
+    /* Style the toggle container */
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3rem;
+    padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
     flex-shrink: 0;
-
-    /* spacing from icons */
-    margin-left: 1.5rem;
-
-    /* proper readable width */
-    min-width: 200px;
+    /* FIX: Control the toggle size and prevent overlap with filters */
+    min-width: 150px; 
+    max-width: 250px; 
 }
 
+/* FIX: Specific style for the label to fix the overlapping text */
 .tax-toggle .form-check-label {
-    white-space: nowrap;
-    font-size: 0.85rem;
-}
-
-.tax-toggle .form-check {
-    gap: 0.4rem;
-}
-
-/* Hide toggle on mobile */
-@media (max-width: 768px) {
-    .tax-toggle {
-        display: none !important;
-    }
+    white-space: nowrap; /* Prevents text wrap */
+    font-size: 0.8rem;
 }
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
+
+/* Medium Screens (992px) */
 @media (max-width: 992px) {
     .filter {
         margin-right: 1.2rem;
     }
+    .filter i {
+        font-size: 1.5rem;
+    }
+    .filter p {
+        font-size: 0.75rem;
+    }
+    .card-img-top {
+        height: 16rem;
+    }
 }
 
+/* Tablets + Small Screens (768px) */
+@media (max-width: 768px) {
+    /* FIX: Hide the tax toggle on mobile screens */
+    .tax-toggle {
+        display: none !important;
+    }
+
+    .filter {
+        margin-right: 1.5rem;
+    }
+    .filter i {
+        font-size: 1.3rem;
+    }
+    .filter p {
+        font-size: 0.7rem;
+    }
+    .card-img-top {
+        height: 14rem;
+    }
+}
+
+/* Mobile (576px) */
 @media (max-width: 576px) {
     .filter {
+        width: auto;
         margin-right: 1.2rem;
+    }
+
+    .filter i {
+        font-size: 1.1rem;
+    }
+
+    .filter p {
+        font-size: 0.65rem;
     }
 
     .card-img-top {
         height: 12rem;
+    }
+
+    .f-info {
+        gap: 0.5rem;
+    }
+    .f-info-brand {
+        font-size: 0.85rem;
+    }
+    .f-info-links {
+        gap: 1rem;
     }
 }

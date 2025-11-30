@@ -2,9 +2,8 @@
 
 <div id="filters" class="d-flex align-items-center mb-3">
 
-    <!-- FILTER ICON SCROLLER -->
     <div class="filter-scroll-container d-flex align-items-center">
-
+        
         <div class="filter" data-category="Villa" onclick="applyFilter('Villa')">
             <div><i class="fa-solid fa-building"></i></div>
             <p>Villa</p>
@@ -71,20 +70,18 @@
         </div>
 
     </div>
-
-    <!-- UPDATED TAX TOGGLE -->
-    <div class="tax-toggle ms-4 d-none d-md-flex">
-        <div class="form-check form-switch form-check-reverse d-flex align-items-center gap-2">
+    
+    <div class="tax-toggle ms-3 border p-2 rounded-pill flex-shrink-0 d-none d-md-flex">
+        <div class="form-check-reverse form-switch d-flex align-items-center">
             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
+            <label class="form-check-label ms-2" for="flexSwitchCheckDefault">Display total after taxes</label>
         </div>
     </div>
 
 </div>
 
-<!-- LISTINGS GRID -->
 <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mt-3">
-</div>
+    </div>
 
 <script>
     function applyFilter(category) {
