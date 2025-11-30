@@ -1,115 +1,98 @@
-<% layout("/layouts/boilerplate") %> 
-<style>
-    #filters {
-        align-items: center;
-    }
-    .tax-info {
-        display: none;
-    }
-    .tax-toggle {
-        border: 1px solid black;
-        border-radius: 1rem;
-        height: 3.25rem;
-        padding: 1rem;
-        margin-left: 2rem;
-        display: flex;
-        align-items: center;
-    }
-</style>
+<% layout("/layouts/boilerplate") %> 
 
-<div id="filters" class="d-flex align-items-center mb-3">
+<div id="filters" class="d-flex align-items-center mb-4 mt-2">
 
-    <div class="filter-scroll-container d-flex align-items-center">
-        
-        <div class="filter" data-category="Villa" onclick="applyFilter('Villa')">
-            <div><i class="fa-solid fa-building"></i></div>
-            <p>Villa</p>
-        </div>
+        <div class="filter-scroll-container d-flex align-items-center">
+        
+        <div class="filter" data-category="Villa" onclick="applyFilter('Villa')">
+            <div><i class="fa-solid fa-building"></i></div>
+            <p>Villa</p>
+        </div>
 
-        <div class="filter" data-category="Apartment" onclick="applyFilter('Apartment')">
-            <div><i class="fa-solid fa-city"></i></div>
-            <p>Apartment</p>
-        </div>
+        <div class="filter" data-category="Apartment" onclick="applyFilter('Apartment')">
+            <div><i class="fa-solid fa-city"></i></div>
+            <p>Apartment</p>
+        </div>
 
-        <div class="filter" data-category="Cottage" onclick="applyFilter('Cottage')">
-            <div><i class="fa-solid fa-house"></i></div>
-            <p>Cottage</p>
-        </div>
+        <div class="filter" data-category="Cottage" onclick="applyFilter('Cottage')">
+            <div><i class="fa-solid fa-house"></i></div>
+            <p>Cottage</p>
+        </div>
 
-        <div class="filter" data-category="House" onclick="applyFilter('House')">
-            <div><i class="fa-solid fa-home"></i></div>
-            <p>House</p>
-        </div>
+        <div class="filter" data-category="House" onclick="applyFilter('House')">
+            <div><i class="fa-solid fa-home"></i></div>
+            <p>House</p>
+        </div>
 
-        <div class="filter" data-category="Trending" onclick="applyFilter('Trending')">
-            <div><i class="fa-solid fa-fire"></i></div>
-            <p>Trending</p>
-        </div>
+        <div class="filter" data-category="Trending" onclick="applyFilter('Trending')">
+            <div><i class="fa-solid fa-fire"></i></div>
+            <p>Trending</p>
+        </div>
 
-        <div class="filter" data-category="Rooms" onclick="applyFilter('Rooms')">
-            <div><i class="fa-solid fa-bed"></i></div>
-            <p>Rooms</p>
-        </div>
+        <div class="filter" data-category="Rooms" onclick="applyFilter('Rooms')">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Rooms</p>
+        </div>
 
-        <div class="filter" data-category="Iconic cities" onclick="applyFilter('Iconic cities')">
-            <div><i class="fa-solid fa-mountain-city"></i></div>
-            <p>Iconic cities</p>
-        </div>
+        <div class="filter" data-category="Iconic cities" onclick="applyFilter('Iconic cities')">
+            <div><i class="fa-solid fa-mountain-city"></i></div>
+            <p>Iconic cities</p>
+        </div>
 
-        <div class="filter" data-category="Mountains" onclick="applyFilter('Mountains')">
-            <div><i class="fa-solid fa-mountain"></i></div>
-            <p>Mountains</p>
-        </div>
+        <div class="filter" data-category="Mountains" onclick="applyFilter('Mountains')">
+            <div><i class="fa-solid fa-mountain"></i></div>
+            <p>Mountains</p>
+        </div>
 
-        <div class="filter" data-category="Castles" onclick="applyFilter('Castles')">
-            <div><i class="fa-brands fa-fort-awesome"></i></div>
-            <p>Castles</p>
-        </div>
+        <div class="filter" data-category="Castles" onclick="applyFilter('Castles')">
+            <div><i class="fa-brands fa-fort-awesome"></i></div>
+            <p>Castles</p>
+        </div>
 
-        <div class="filter" data-category="Arctic" onclick="applyFilter('Arctic')">
-            <div><i class="fa-solid fa-snowflake"></i></div>
-            <p>Arctic</p>
-        </div>
+        <div class="filter" data-category="Arctic" onclick="applyFilter('Arctic')">
+            <div><i class="fa-solid fa-snowflake"></i></div>
+            <p>Arctic</p>
+        </div>
 
-        <div class="filter" data-category="Camping" onclick="applyFilter('Camping')">
-            <div><i class="fa-solid fa-campground"></i></div>
-            <p>Camping</p>
-        </div>
+        <div class="filter" data-category="Camping" onclick="applyFilter('Camping')">
+            <div><i class="fa-solid fa-campground"></i></div>
+            <p>Camping</p>
+        </div>
 
-        <div class="filter" data-category="Farms" onclick="applyFilter('Farms')">
-            <div><i class="fa-solid fa-tractor"></i></div>
-            <p>Farms</p>
-        </div>
+        <div class="filter" data-category="Farms" onclick="applyFilter('Farms')">
+            <div><i class="fa-solid fa-tractor"></i></div>
+            <p>Farms</p>
+        </div>
 
-        <div class="filter" data-category="Amazing pool" onclick="applyFilter('Amazing pool')">
-            <div><i class="fa-solid fa-person-swimming"></i></div>
-            <p>Amazing pool</p>
-        </div>
+        <div class="filter" data-category="Amazing pool" onclick="applyFilter('Amazing pool')">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Amazing pool</p>
+        </div>
 
-    </div>
-    
-    <div class="tax-toggle">
-        <div class="form-check-reverse form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
-        </div>
-    </div>
+    </div>
+    
+    <div class="tax-toggle ms-auto">
+        <div class="form-check-reverse form-switch d-flex align-items-center">
+            <label class="form-check-label me-2" for="flexSwitchCheckDefault">Display total after taxes</label>
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        </div>
+    </div>
 
 </div>
 
 <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mt-3">
-    </div>
+    </div>
 
 <script>
-    function applyFilter(category) {
-        window.location.href = `/listings?category=${category}`;
-    }
+    function applyFilter(category) {
+        window.location.href = `/listings?category=${category}`;
+    }
 
-    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-    taxSwitch.addEventListener("click", () => {
-        let taxInfo = document.getElementsByClassName("tax-info");
-        for (info of taxInfo) {
-            info.style.display = info.style.display !== "inline" ? "inline" : "none";
-        }
-    });
+    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", () => {
+        let taxInfo = document.getElementsByClassName("tax-info");
+        for (info of taxInfo) {
+            info.style.display = info.style.display !== "inline" ? "inline" : "none";
+        }
+    });
 </script>

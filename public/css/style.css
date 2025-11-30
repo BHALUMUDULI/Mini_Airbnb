@@ -1,246 +1,13 @@
 /* =========================================================
-   BASE STYLES
-========================================================= */
-body {
-    font-family: "Plus Jakarta Sans", sans-serif !important;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.container {
-    flex: 1;
-}
-
-/* =========================================================
-   NAVBAR (Centered Search & Offcanvas Styles)
-========================================================= */
-.navbar {
-    height: 5rem;
-    background-color: #ffffff;
-    padding-top: 0.6rem;
-    padding-bottom: 0.6rem;
-}
-
-.fa-compass {
-    color: #fe424d;
-    font-size: 2rem;
-}
-
-.nav-link {
-    color: #222222 !important;
-    font-weight: 500;
-}
-
-/* Search Form - BASE STYLE (Used for mobile/offcanvas) */
-.search-form {
-    max-width: 260px;
-    width: 100%;
-}
-
-.search-inp {
-    height: 34px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    padding-left: 14px;
-}
-
-.search-btn {
-    height: 34px;
-    width: 38px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fe424d; 
-    color: white;
-    border: none;
-}
-
-/* Right Navbar Items */
-.nav-actions .action-link {
-    margin-left: 16px;
-    font-size: 0.95rem;
-}
-
-/* -------------------------------------------
-   Desktop Search Bar Centering (md and up)
-------------------------------------------- */
-@media (min-width: 768px) {
-    /* Style the centered desktop search container */
-    .navbar .search-form {
-        max-width: 450px; 
-        border: 1px solid #ccc; 
-        border-radius: 24px; 
-        padding: 5px;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05); 
-        transition: box-shadow 0.2s ease-in-out;
-    }
-
-    .navbar .search-form:hover {
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
-    }
-
-    .navbar .search-inp {
-        height: auto;
-        border: none !important;
-        box-shadow: none !important;
-        background-color: transparent !important;
-        padding: 0 15px; 
-        flex-grow: 1; 
-        font-size: 0.9rem;
-        border-radius: 0;
-    }
-
-    .navbar .search-btn {
-        flex-shrink: 0;
-        margin-left: 0 !important;
-    }
-}
-
-
-/* -------------------------------------------
-   Mobile Navbar (Offcanvas & Collapse Fixes)
-------------------------------------------- */
-@media (max-width: 768px) {
-    .search-form {
-        max-width: 100%;
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-
-    .offcanvas-body .search-form {
-         border: 1px solid #ccc; 
-         border-radius: 24px;
-         padding: 5px;
-    }
-    .offcanvas-body .search-inp {
-        border: none !important;
-        box-shadow: none !important;
-        background-color: transparent !important;
-        padding-left: 10px;
-        border-radius: 0;
-    }
-
-    .nav-actions .action-link {
-        margin-left: 0;
-        margin-top: 7px;
-    }
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-.f-info {
-    text-align: center;
-    background-color: #ebebeb;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 0;
-    gap: 0.5rem;
-}
-
-.f-info-socials {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-    margin-bottom: 0.5rem;
-}
-
-.f-info-socials i {
-    font-size: 1.2rem;
-}
-
-.f-info-brand {
-    width: 100%;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-}
-
-.f-info-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-    width: 100%;
-}
-
-.f-info-links a {
-    text-decoration: none;
-    color: #222222;
-    transition: color 0.2s ease-in-out;
-}
-
-.f-info-links a:hover {
-    text-decoration: underline;
-    color: #fe424d;
-}
-
-/* =========================================================
-   LISTING CARDS
-========================================================= */
-.listing-card {
-    border: none !important;
-    margin-bottom: 2rem;
-    transition: transform 0.2s ease-in-out;
-}
-
-.listing-card:hover {
-    transform: scale(1.03);
-}
-
-.card-img-top {
-    border-radius: 1rem;
-    width: 100% !important;
-    object-fit: cover !important;
-    height: 20rem;
-}
-
-.card-body {
-    padding: 0 !important;
-}
-
-.card-text p {
-    font-weight: 400 !important;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.listing-link {
-    text-decoration: none;
-}
-
-.card-img-overlay {
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-}
-
-.card-img-overlay:hover {
-    opacity: 0.2;
-    background-color: white;
-}
-
-/* =========================================================
-   MAP
-========================================================= */
-#map { 
-    height: 400px;
-    width: 80vh; 
-}
-
-/* =========================================================
-   FILTERS (Horizontal Scrolling Fix)
+   FILTERS (Horizontal Scrolling Fix & Styling)
 ========================================================= */
 #filters {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     padding-bottom: 0.5rem;
+    /* Added a bottom border to the whole filter section for separation */
+    border-bottom: 1px solid #e0e0e0; 
 }
 
 /* Container for the actual filter icons, enabling scrolling */
@@ -250,7 +17,9 @@ body {
     flex-wrap: nowrap; 
     -ms-overflow-style: none; 
     scrollbar-width: none; 
-    padding-right: 1rem;
+    /* Max width to leave space for the tax toggle */
+    max-width: calc(100% - 250px); 
+    padding-right: 2rem;
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
@@ -262,8 +31,10 @@ body {
     flex-shrink: 0; 
     text-align: center;
     margin-right: 2rem; 
-    opacity: 0.7;
-    transition: 0.2s ease-in-out;
+    padding: 0.4rem 0.1rem; /* Adjust padding for visual alignment */
+    opacity: 0.6;
+    transition: all 0.2s ease-in-out;
+    border-bottom: 2px solid transparent; 
 }
 
 .filter:hover {
@@ -271,96 +42,93 @@ body {
     cursor: pointer;
 }
 
+/* Active Filter Styling (The red underline effect from the image) */
+.filter.active, .filter:hover {
+    opacity: 1;
+    border-bottom: 2px solid #fe424d; /* Use the primary color */
+}
+
+.filter i {
+    font-size: 1.5rem; /* Icon size */
+}
+
 .filter p {
-    font-size: 0.8rem;
+    font-size: 0.75rem; /* Smaller, neat text */
+    font-weight: 500;
+    margin-top: 0.25rem;
+    color: #222222;
 }
 
 .tax-info {
     display: none;
 }
 
+/* --- Attractive Tax Toggle Style (Right Aligned) --- */
 .tax-toggle {
-    /* Style the toggle container */
-    border: 1px solid black;
-    border-radius: 1rem;
-    height: 3rem;
-    padding: 0.5rem 1rem;
-    margin-left: 2rem;
-    display: flex;
-    align-items: center;
-    
-      
+    flex-shrink: 0; 
+    /* Border and styling inspired by the image for a dedicated switch area */
+    border: 1px solid #cccccc;
+    border-radius: 20px; 
+    padding: 0.4rem 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    background-color: #ffffff;
+    /* ms-auto in EJS pushes it right, adding some margin here */
+    margin-left: 2rem; 
 }
 
+.tax-toggle .form-check-label {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #222222;
+    /* The label is now on the left of the switch */
+}
 
+.tax-toggle .form-check-input {
+    cursor: pointer;
+    background-color: #e0e0e0;
+    border: 1px solid #e0e0e0;
+}
+
+.tax-toggle .form-check-input:checked {
+    background-color: #222222; /* Black or dark gray for a premium look */
+    border-color: #222222;
+}
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE (Revised)
 ========================================================= */
 
-/* Medium Screens (992px) */
 @media (max-width: 992px) {
-    .filter {
-        margin-right: 1.2rem;
-    }
-    .filter i {
-        font-size: 1.5rem;
-    }
-    .filter p {
-        font-size: 0.75rem;
-    }
-    .card-img-top {
-        height: 16rem;
-    }
-}
-
-/* Tablets + Small Screens (768px) */
-@media (max-width: 768px) {
-    /* FIX: Hide the tax toggle on mobile screens */
-    .tax-toggle {
-        display: none !important;
-    }
-
+    /* Adjust filter spacing for medium screens */
     .filter {
         margin-right: 1.5rem;
     }
+    .filter-scroll-container {
+        /* Allow scroll container to take more space on medium screens */
+        max-width: calc(100% - 180px); 
+    }
+}
+
+@media (max-width: 768px) {
+    /* Make the tax toggle disappear on smaller screens, or adjust its position */
+    .tax-toggle {
+        /* Hiding it often works best for very narrow mobile screens */
+        display: none !important; 
+    }
+    
+    /* Allow filters to take full width */
+    .filter-scroll-container {
+        max-width: 100%;
+    }
+    
+    /* Smaller filter icons for mobile */
     .filter i {
         font-size: 1.3rem;
     }
     .filter p {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
     }
     .card-img-top {
         height: 14rem;
-    }
-}
-
-/* Mobile (576px) */
-@media (max-width: 576px) {
-    .filter {
-        width: auto;
-        margin-right: 1.2rem;
-    }
-
-    .filter i {
-        font-size: 1.1rem;
-    }
-
-    .filter p {
-        font-size: 0.65rem;
-    }
-
-    .card-img-top {
-        height: 12rem;
-    }
-
-    .f-info {
-        gap: 0.5rem;
-    }
-    .f-info-brand {
-        font-size: 0.85rem;
-    }
-    .f-info-links {
-        gap: 1rem;
     }
 }
