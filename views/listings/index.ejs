@@ -1,10 +1,10 @@
-<% layout("/layouts/boilerplate") %>
+<% layout("/layouts/boilerplate") %> 
 
-<!-- FILTER SECTION -->
+
 <div id="filters" class="d-flex align-items-center mb-3">
 
     <div class="filter-scroll-container d-flex align-items-center">
-
+        
         <div class="filter" data-category="Villa" onclick="applyFilter('Villa')">
             <div><i class="fa-solid fa-building"></i></div>
             <p>Villa</p>
@@ -15,76 +15,85 @@
             <p>Apartment</p>
         </div>
 
-        <div class="filter" data-category="Farmhouse" onclick="applyFilter('Farmhouse')">
-            <div><i class="fa-solid fa-tractor"></i></div>
-            <p>Farmhouse</p>
+        <div class="filter" data-category="Cottage" onclick="applyFilter('Cottage')">
+            <div><i class="fa-solid fa-house"></i></div>
+            <p>Cottage</p>
         </div>
 
-        <div class="filter" data-category="Room" onclick="applyFilter('Room')">
+        <div class="filter" data-category="House" onclick="applyFilter('House')">
+            <div><i class="fa-solid fa-home"></i></div>
+            <p>House</p>
+        </div>
+
+        <div class="filter" data-category="Trending" onclick="applyFilter('Trending')">
+            <div><i class="fa-solid fa-fire"></i></div>
+            <p>Trending</p>
+        </div>
+
+        <div class="filter" data-category="Rooms" onclick="applyFilter('Rooms')">
             <div><i class="fa-solid fa-bed"></i></div>
-            <p>Room</p>
+            <p>Rooms</p>
+        </div>
+
+        <div class="filter" data-category="Iconic cities" onclick="applyFilter('Iconic cities')">
+            <div><i class="fa-solid fa-mountain-city"></i></div>
+            <p>Iconic cities</p>
+        </div>
+
+        <div class="filter" data-category="Mountains" onclick="applyFilter('Mountains')">
+            <div><i class="fa-solid fa-mountain"></i></div>
+            <p>Mountains</p>
+        </div>
+
+        <div class="filter" data-category="Castles" onclick="applyFilter('Castles')">
+            <div><i class="fa-brands fa-fort-awesome"></i></div>
+            <p>Castles</p>
+        </div>
+
+        <div class="filter" data-category="Arctic" onclick="applyFilter('Arctic')">
+            <div><i class="fa-solid fa-snowflake"></i></div>
+            <p>Arctic</p>
+        </div>
+
+        <div class="filter" data-category="Camping" onclick="applyFilter('Camping')">
+            <div><i class="fa-solid fa-campground"></i></div>
+            <p>Camping</p>
+        </div>
+
+        <div class="filter" data-category="Farms" onclick="applyFilter('Farms')">
+            <div><i class="fa-solid fa-tractor"></i></div>
+            <p>Farms</p>
+        </div>
+
+        <div class="filter" data-category="Amazing pool" onclick="applyFilter('Amazing pool')">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Amazing pool</p>
+        </div>
+
+    </div>
+    
+    <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
         </div>
     </div>
 
-    <!-- Tax Toggle -->
-    <div class="tax-toggle ms-auto">
-        <span>Display Tax</span>
-        <label class="switch">
-            <input type="checkbox" id="taxSwitch" onchange="toggleTax()">
-            <span class="slider round"></span>
-        </label>
-    </div>
 </div>
 
-
-<!-- LISTINGS GRID -->
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-
-    <% listings.forEach(listing => { %>
-    <div class="col listing-card" data-category="<%= listing.category %>">
-
-        <div class="card border-0">
-            <a href="/listings/<%= listing._id %>">
-                <img src="<%= listing.image.url %>" class="card-img-top" alt="Listing Image">
-            </a>
-
-            <div class="card-body">
-                <p class="card-text fw-bold"><%= listing.title %></p>
-                <p class="card-text text-muted"><%= listing.location %></p>
-
-                <p class="card-text price">
-                    ₹<%= listing.price %>
-                    <span class="tax-text text-muted" style="display:none;"> + tax</span>
-                </p>
-            </div>
-        </div>
-
+<div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mt-3">
     </div>
-    <% }) %>
 
-</div>
-
-
-<!-- FILTER & TOGGLE SCRIPT -->
 <script>
-function applyFilter(category) {
-    const cards = document.querySelectorAll(".listing-card");
+    function applyFilter(category) {
+        window.location.href = `/listings?category=${category}`;
+    }
 
-    cards.forEach(card => {
-        if (category === "All" || card.dataset.category === category) {
-            card.style.display = "block";
-        } else {
-            card.style.display = "none";
+    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", () => {
+        let taxInfo = document.getElementsByClassName("tax-info");
+        for (info of taxInfo) {
+            info.style.display = info.style.display !== "inline" ? "inline" : "none";
         }
     });
-}
-
-function toggleTax() {
-    const showTax = document.getElementById("taxSwitch").checked;
-    const taxTexts = document.querySelectorAll(".tax-text");
-
-    taxTexts.forEach(t => {
-        t.style.display = showTax ? "inline" : "none";
-    });
-}
 </script>
