@@ -280,7 +280,6 @@ body {
 }
 
 .tax-toggle {
-    /* Style the toggle container */
     border: 1px solid black;
     border-radius: 1rem;
     height: 3rem;
@@ -288,7 +287,6 @@ body {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    /* FIX: Control the toggle size and prevent overlap with filters */
     min-width: 150px; 
     max-width: 250px; 
 }
@@ -296,7 +294,12 @@ body {
 /* FIX: Specific style for the label to fix the overlapping text */
 .tax-toggle .form-check-label {
     white-space: nowrap; /* Prevents text wrap */
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    margin: 0; /* Remove default bootstrap margin */
+}
+
+.tax-toggle .form-check-input {
+    flex-shrink: 0; /* Prevent shrinking on small width */
 }
 
 /* =========================================================
