@@ -27,14 +27,14 @@
         <p class="card-text"><%= listing.location %></p>
         <p class="card-text"><%= listing.country %></p>
 
-        <!-- ✅ Added Category Display -->
+        <!-- Category -->
         <p class="card-text"><b>Category:</b> <%= listing.category %></p>
       </div>
   </div>
 
   <br/>
 
-  <!-- Edit/Delete Buttons -->
+  <!-- Edit/Delete Buttons ONLY for listing owner -->
   <% if (currUser && listing.owner._id.equals(currUser._id)) { %>
   <div class="btns">
       <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>
@@ -103,9 +103,13 @@
                   <p class="card-text"><%= review.comment %></p>
               </div>
 
+              <!-- ❗ Show delete button ONLY for review author -->
+              <% if (currUser && review.author._id.equals(currUser._id)) { %>
               <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                   <button class="btn btn-sm btn-dark">Delete</button>
               </form>
+              <% } %>
+
           </div>
           <% } %>
       </div>

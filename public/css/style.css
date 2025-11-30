@@ -1,4 +1,6 @@
-/* ====== BASE STYLES ====== */
+/* =========================================================
+   BASE STYLES
+========================================================= */
 body {
     font-family: "Plus Jakarta Sans", sans-serif !important;
     display: flex;
@@ -10,10 +12,14 @@ body {
     flex: 1;
 }
 
-/* ====== NAVBAR ====== */
+/* =========================================================
+   NAVBAR (UPDATED & CLEAN)
+========================================================= */
 .navbar {
     height: 5rem;
     background-color: white;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
 }
 
 .fa-compass {
@@ -23,9 +29,54 @@ body {
 
 .nav-link {
     color: #222222 !important;
+    font-weight: 500;
 }
 
-/* ====== FOOTER ====== */
+/* Search Form */
+.search-form {
+    max-width: 260px;
+    width: 100%;
+}
+
+.search-inp {
+    height: 34px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    padding-left: 14px;
+}
+
+.search-btn {
+    height: 34px;
+    width: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Right Navbar Items */
+.nav-actions .action-link {
+    margin-left: 16px;
+    font-size: 0.95rem;
+}
+
+/* Mobile Navbar */
+@media (max-width: 768px) {
+    .search-form {
+        max-width: 100%;
+        margin-top: 0.7rem;
+        margin-bottom: 0.7rem;
+    }
+
+    .nav-actions .action-link {
+        margin-left: 0;
+        margin-top: 7px;
+    }
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
 .f-info {
     text-align: center;
     background-color: #ebebeb;
@@ -41,7 +92,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem; /* space between social icons */
+    gap: 1rem;
     width: 100%;
     margin-bottom: 0.5rem;
 }
@@ -60,7 +111,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.5rem; /* space between links */
+    gap: 1.5rem;
     width: 100%;
 }
 
@@ -72,10 +123,12 @@ body {
 
 .f-info-links a:hover {
     text-decoration: underline;
-    color: #fe424d; /* optional hover color */
+    color: #fe424d;
 }
 
-/* ====== CARDS ====== */
+/* =========================================================
+   LISTING CARDS
+========================================================= */
 .listing-card {
     border: none !important;
     margin-bottom: 2rem;
@@ -90,7 +143,7 @@ body {
     border-radius: 1rem;
     width: 100% !important;
     object-fit: cover !important;
-    height: 20rem; /* default for large screens */
+    height: 20rem;
 }
 
 .card-body {
@@ -107,7 +160,6 @@ body {
     text-decoration: none;
 }
 
-/* Card hover effect */
 .card-img-overlay {
     opacity: 0;
 }
@@ -117,13 +169,17 @@ body {
     background-color: white;
 }
 
-/* ====== MAP ====== */
+/* =========================================================
+   MAP
+========================================================= */
 #map { 
     height: 400px;
     width: 80vh; 
 }
 
-/* ====== FILTERS ====== */
+/* =========================================================
+   FILTERS
+========================================================= */
 #filters {
     display: flex;
     flex-wrap: wrap;
@@ -161,9 +217,11 @@ body {
     align-items: center;
 }
 
-/* ====== RESPONSIVE ====== */
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-/* Medium devices and below */
+/* Medium Screens */
 @media (max-width: 992px) {
     .filter {
         margin-right: 1.2rem;
@@ -179,7 +237,7 @@ body {
     }
 }
 
-/* Small devices and below */
+/* Tablets + Small Screens */
 @media (max-width: 768px) {
     #filters {
         justify-content: center;
@@ -203,7 +261,7 @@ body {
     }
 }
 
-/* Extra small devices / mobile */
+/* Mobile */
 @media (max-width: 576px) {
     #filters {
         flex-wrap: nowrap;
@@ -212,28 +270,34 @@ body {
         padding-bottom: 0.5rem;
         -webkit-overflow-scrolling: touch;
     }
+
     #filters::-webkit-scrollbar {
         display: none;
     }
+
     .filter {
         flex: 0 0 auto;
         width: 70px;
         margin-right: 1rem;
     }
+
     .filter i {
         font-size: 1.1rem;
     }
+
     .filter p {
         font-size: 0.65rem;
     }
+
     .tax-toggle {
         flex: 0 0 auto;
     }
+
     .card-img-top {
         height: 12rem;
     }
 
-    /* Footer adjustments for mobile */
+    /* Footer mobile adjustments */
     .f-info {
         gap: 0.5rem;
     }
