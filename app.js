@@ -19,7 +19,6 @@ const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
-
 // =============================
 // 🔗 MONGODB CONNECTION
 // =============================
@@ -28,7 +27,6 @@ const dbUrl = process.env.ATLASDB_URL;
 mongoose.connect(dbUrl)
   .then(() => console.log("Connected to DB"))
   .catch(err => console.log("DB Connection Error:", err));
-
 
 // =============================
 // ⚙️ EXPRESS SETUP
@@ -40,7 +38,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
-
 
 // =============================
 // 🔐 SESSION SETUP
@@ -69,7 +66,6 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
-
 // =============================
 // 🔑 PASSPORT AUTH
 // =============================
@@ -79,7 +75,6 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
 
 // =============================
 // 🌟 GLOBAL MIDDLEWARE
@@ -91,11 +86,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// =============================
+// 🏠 ROOT ROUTE REDIRECT
+// =============================
+app.get("/", (req, res) => {
+  res.redirect("/listings"); // Now root goes directly to listings
+});
 
 // =============================
 // 📄 STATIC PAGES ROUTES
-// (Files MUST exist inside /views)
-// about.ejs, contact.ejs, privacy.ejs, terms.ejs
 // =============================
 app.get("/about", (req, res) => {
   res.render("includes/about");
@@ -113,7 +112,6 @@ app.get("/terms", (req, res) => {
   res.render("includes/terms");
 });
 
-
 // =============================
 // 🛣️ MAIN ROUTERS
 // =============================
@@ -121,14 +119,12 @@ app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
 
-
 // =============================
 // ❌ 404 HANDLER
 // =============================
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
 });
-
 
 // =============================
 // ⚠️ GLOBAL ERROR HANDLER
@@ -139,7 +135,6 @@ app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
   res.status(statusCode).render("error", { message });
 });
-
 
 // =============================
 // 🚀 SERVER
