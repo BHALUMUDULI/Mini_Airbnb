@@ -1,53 +1,90 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom sticky-top py-2">
     <div class="container-fluid">
-  
-        <!-- Brand -->
+
         <a class="navbar-brand" href="/listings">
-            <i class="fa-solid fa-compass fs-3"></i>
+            <i class="fa-solid fa-compass fs-3 text-danger"></i>
         </a>
-  
-        <!-- Mobile Toggle -->
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-  
-        <!-- Navbar Content -->
-        <div class="collapse navbar-collapse mt-2 mt-md-0" id="navbarNav">
-  
-            <!-- Left Links -->
-            <div class="navbar-nav me-auto">
-                <a class="nav-link" href="/listings">Explore</a>
-            </div>
-  
-            <!-- Search -->
-            <form class="d-flex search-form my-2 my-md-0" method="GET" action="/listings">
+
+        <div class="d-none d-md-flex justify-content-center flex-grow-1">
+            <form class="d-flex search-form" method="GET" action="/listings" style="width: 100%; max-width: 450px;">
                 <input class="form-control search-inp" type="search" placeholder="Search Country" name="search">
                 <button class="btn search-btn ms-2">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
-  
-            <!-- Right Links -->
-            <div class="navbar-nav ms-md-3 nav-actions mt-2 mt-md-0">
-  
-                <a class="nav-link action-link" href="/listings/new">Add Listing</a>
-  
+        </div>
+
+        <div class="d-flex align-items-center">
+            
+            <div class="navbar-nav d-none d-md-flex align-items-center">
+                <a class="nav-link action-link me-3" href="/listings/new">Add Listing</a>
                 <% if (!currUser) { %>
-                    <a class="nav-link action-link" href="/signup"><b>Sign up</b></a>
+                    <a class="nav-link action-link me-2" href="/signup"><b>Sign up</b></a>
                     <a class="nav-link action-link" href="/login"><b>Log in</b></a>
                 <% } %>
-  
                 <% if (currUser) { %>
                     <a class="nav-link action-link" href="/logout"><b>Log out</b></a>
                 <% } %>
-  
             </div>
-  
+
+            <button class="navbar-toggler ms-2"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar"
+                    aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
-  
+
     </div>
-  </nav>
-  
+</nav>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Navigation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        
+        <form class="d-flex mb-3 search-form d-md-none" method="GET" action="/listings">
+            <input class="form-control search-inp" type="search" placeholder="Search Country" name="search">
+            <button class="btn search-btn ms-2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/listings">Explore</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/listings/new">Add Listing</a>
+            </li>
+            <li class="nav-item mt-3">
+                <h6 class="offcanvas-subtitle mb-2 text-muted">Account</h6>
+            </li>
+            <% if (!currUser) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup"><b>Sign up</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login"><b>Log in</b></a>
+                </li>
+            <% } %>
+            <% if (currUser) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout"><b>Log out</b></a>
+                </li>
+            <% } %>
+        </ul>
+        
+        <div class="offcanvas-footer text-center mt-4 pt-3 border-top">
+             <div class="social-icons mb-3">
+                <a href="#"><i class="fa-brands fa-facebook-f mx-2 text-dark"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram mx-2 text-dark"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in mx-2 text-dark"></i></a>
+            </div>
+            <small class="text-muted">© Mini_Airbnb Pvt Ltd.</small>
+        </div>
+    </div>
+</div>
