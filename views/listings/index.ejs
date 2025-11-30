@@ -1,98 +1,92 @@
-<% layout("/layouts/boilerplate") %> 
+<% layout("/layouts/boilerplate") %>
 
-<div id="filters" class="d-flex align-items-center mb-4 mt-2">
+<!-- FILTER SECTION -->
+<div id="filters" class="d-flex align-items-center mb-3">
+    <div class="filter-scroll-container d-flex align-items-center">
 
-        <div class="filter-scroll-container d-flex align-items-center">
-        
-        <div class="filter" data-category="Villa" onclick="applyFilter('Villa')">
-            <div><i class="fa-solid fa-building"></i></div>
-            <p>Villa</p>
-        </div>
+        <% const categories = [
+            { type: "Villa", icon: "fa-building" },
+            { type: "Beach", icon: "fa-umbrella-beach" },
+            { type: "Mountain", icon: "fa-mountain" },
+            { type: "Lake", icon: "fa-water" },
+            { type: "Cabin", icon: "fa-tree" },
+            { type: "Iconic Cities", icon: "fa-city" },
+            { type: "Camping", icon: "fa-campground" },
+            { type: "Farms", icon: "fa-tractor" },
+            { type: "Rooms", icon: "fa-bed" }
+        ]; %>
 
-        <div class="filter" data-category="Apartment" onclick="applyFilter('Apartment')">
-            <div><i class="fa-solid fa-city"></i></div>
-            <p>Apartment</p>
-        </div>
+        <% categories.forEach(c => { %>
+            <div class="filter" data-category="<%= c.type %>" onclick="applyFilter('<%= c.type %>')">
+                <div><i class="fa-solid <%= c.icon %>"></i></div>
+                <p><%= c.type %></p>
+            </div>
+        <% }) %>
 
-        <div class="filter" data-category="Cottage" onclick="applyFilter('Cottage')">
-            <div><i class="fa-solid fa-house"></i></div>
-            <p>Cottage</p>
-        </div>
+    </div>
 
-        <div class="filter" data-category="House" onclick="applyFilter('House')">
-            <div><i class="fa-solid fa-home"></i></div>
-            <p>House</p>
-        </div>
+    <!-- TAX SWITCH -->
+    <div class="form-check form-switch ms-3">
+        <input class="form-check-input" type="checkbox" id="toggleTax" onchange="toggleTaxes()">
+        <label class="form-check-label" for="toggleTax">Include Taxes</label>
+    </div>
+</div>
 
-        <div class="filter" data-category="Trending" onclick="applyFilter('Trending')">
-            <div><i class="fa-solid fa-fire"></i></div>
-            <p>Trending</p>
-        </div>
+<!-- LISTINGS GRID -->
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
 
-        <div class="filter" data-category="Rooms" onclick="applyFilter('Rooms')">
-            <div><i class="fa-solid fa-bed"></i></div>
-            <p>Rooms</p>
-        </div>
+    <% listings.forEach(listing => { %>
 
-        <div class="filter" data-category="Iconic cities" onclick="applyFilter('Iconic cities')">
-            <div><i class="fa-solid fa-mountain-city"></i></div>
-            <p>Iconic cities</p>
-        </div>
+        <div class="col listing-card" data-category="<%= listing.category %>">
 
-        <div class="filter" data-category="Mountains" onclick="applyFilter('Mountains')">
-            <div><i class="fa-solid fa-mountain"></i></div>
-            <p>Mountains</p>
-        </div>
+            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
 
-        <div class="filter" data-category="Castles" onclick="applyFilter('Castles')">
-            <div><i class="fa-brands fa-fort-awesome"></i></div>
-            <p>Castles</p>
-        </div>
+                <div class="card border-0 shadow-sm">
 
-        <div class="filter" data-category="Arctic" onclick="applyFilter('Arctic')">
-            <div><i class="fa-solid fa-snowflake"></i></div>
-            <p>Arctic</p>
-        </div>
+                    <!-- IMAGE -->
+                    <img
+                        src="<%= listing.image.url %>"
+                        alt="Listing Image"
+                        class="card-img-top rounded-top"
+                        style="height: 200px; object-fit: cover;"
+                    />
 
-        <div class="filter" data-category="Camping" onclick="applyFilter('Camping')">
-            <div><i class="fa-solid fa-campground"></i></div>
-            <p>Camping</p>
-        </div>
+                    <!-- BODY -->
+                    <div class="card-body">
 
-        <div class="filter" data-category="Farms" onclick="applyFilter('Farms')">
-            <div><i class="fa-solid fa-tractor"></i></div>
-            <p>Farms</p>
-        </div>
+                        <h5 class="fw-bold mb-1"><%= listing.title %></h5>
 
-        <div class="filter" data-category="Amazing pool" onclick="applyFilter('Amazing pool')">
-            <div><i class="fa-solid fa-person-swimming"></i></div>
-            <p>Amazing pool</p>
-        </div>
+                        <p class="text-muted small mb-1"><%= listing.location %>, <%= listing.country %></p>
 
-    </div>
-    
-    <div class="tax-toggle ms-auto">
-        <div class="form-check-reverse form-switch d-flex align-items-center">
-            <label class="form-check-label me-2" for="flexSwitchCheckDefault">Display total after taxes</label>
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        </div>
-    </div>
+                        <p class="fw-semibold mb-0">
+                            ₹ <%= listing.price %> <span class="text-muted small">/ night</span>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    <% }) %>
 
 </div>
 
-<div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mt-3">
-    </div>
-
 <script>
-    function applyFilter(category) {
-        window.location.href = `/listings?category=${category}`;
-    }
+    // FILTER FUNCTION
+    function applyFilter(category) {
+        const cards = document.querySelectorAll(".listing-card");
+        cards.forEach(card => {
+            const cardCategory = card.dataset.category;
+            card.style.display = cardCategory === category || category === "All" ? "block" : "none";
+        });
+    }
 
-    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-    taxSwitch.addEventListener("click", () => {
-        let taxInfo = document.getElementsByClassName("tax-info");
-        for (info of taxInfo) {
-            info.style.display = info.style.display !== "inline" ? "inline" : "none";
-        }
-    });
+    // TAX TOGGLE
+    function toggleTaxes() {
+        console.log("Tax toggled");
+        // you can implement tax calculation here later
+    }
 </script>
