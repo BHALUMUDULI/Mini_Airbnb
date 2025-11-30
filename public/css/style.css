@@ -32,9 +32,8 @@ body {
     font-weight: 500;
 }
 
-/* Search Form - BASE STYLE */
+/* Search Form - BASE STYLE (Used for mobile/offcanvas) */
 .search-form {
-    /* Base width for desktop center form (overridden below by media query for center style) */
     max-width: 260px;
     width: 100%;
 }
@@ -53,7 +52,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Added to match the design aesthetics */
     background-color: #fe424d; 
     color: white;
     border: none;
@@ -71,11 +69,11 @@ body {
 @media (min-width: 768px) {
     /* Style the centered desktop search container */
     .navbar .search-form {
-        max-width: 450px; /* Wider search bar */
-        border: 1px solid #ccc; /* Light border */
-        border-radius: 24px; /* Highly rounded corners */
+        max-width: 450px; 
+        border: 1px solid #ccc; 
+        border-radius: 24px; 
         padding: 5px;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05); 
         transition: box-shadow 0.2s ease-in-out;
     }
 
@@ -84,7 +82,6 @@ body {
     }
 
     .navbar .search-inp {
-        /* Remove default input styling inside the custom container */
         height: auto;
         border: none !important;
         box-shadow: none !important;
@@ -96,7 +93,6 @@ body {
     }
 
     .navbar .search-btn {
-        /* Keep the custom button style, but ensure its positioned correctly */
         flex-shrink: 0;
         margin-left: 0 !important;
     }
@@ -243,9 +239,9 @@ body {
    FILTERS (Horizontal Scrolling Fix)
 ========================================================= */
 #filters {
-    /* Override your original flex-wrap: wrap to allow the scrolling container and toggle to coexist */
+    /* Override original styling */
     display: flex;
-    flex-wrap: nowrap; /* Prevent wrapping in the main container */
+    flex-wrap: nowrap;
     align-items: center;
     padding-bottom: 0.5rem;
 }
@@ -253,10 +249,10 @@ body {
 /* NEW: Container for the actual filter icons, enabling scrolling */
 .filter-scroll-container {
     flex-grow: 1; 
-    overflow-x: auto; /* KEY: Enables horizontal scroll */
-    flex-wrap: nowrap; /* KEY: Prevents filter icons from wrapping */
-    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    overflow-x: auto; 
+    flex-wrap: nowrap; 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
     padding-right: 1rem;
 }
 
@@ -266,10 +262,8 @@ body {
 }
 
 .filter {
-    /* Ensures each filter is a fixed width item and doesn't shrink */
     flex-shrink: 0; 
     text-align: center;
-    /* Added back margin-right for spacing between scrollable items */
     margin-right: 2rem; 
     opacity: 0.7;
     transition: 0.2s ease-in-out;
@@ -297,8 +291,17 @@ body {
     padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
-    /* Prevents the toggle from shrinking when scrolling occurs */
     flex-shrink: 0;
+    /* FIX: Control the toggle size and prevent overlap with filters */
+    min-width: 150px; 
+    max-width: 250px; 
+}
+
+/* FIX: Ensure there is space between the checkbox and the label text */
+.tax-toggle .form-check-label {
+    margin-left: 0.5rem; 
+    font-size: 0.8rem;
+    white-space: nowrap; /* Prevent the label text from wrapping */
 }
 
 /* =========================================================
@@ -323,13 +326,12 @@ body {
 
 /* Tablets + Small Screens (768px) */
 @media (max-width: 768px) {
-    /* Hide the tax toggle on mobile screens to save space for the filters */
+    /* FIX: Hide the tax toggle on mobile screens */
     .tax-toggle {
         display: none !important;
     }
 
     .filter {
-        /* Adjust spacing for mobile scroll */
         margin-right: 1.5rem;
     }
     .filter i {
@@ -345,11 +347,6 @@ body {
 
 /* Mobile (576px) */
 @media (max-width: 576px) {
-    /* The scrolling is now handled by .filter-scroll-container */
-    #filters {
-        padding-bottom: 0;
-    }
-    
     .filter {
         width: auto;
         margin-right: 1.2rem;
