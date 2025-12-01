@@ -67,7 +67,6 @@ body {
    Desktop Search Bar Centering (md and up)
 ------------------------------------------- */
 @media (min-width: 768px) {
-    /* Style the centered desktop search container */
     .navbar .search-form {
         max-width: 450px; 
         border: 1px solid #ccc; 
@@ -194,11 +193,12 @@ body {
     transform: scale(1.03);
 }
 
+/* Base style for card image */
 .card-img-top {
     border-radius: 1rem;
     width: 100% !important;
     object-fit: cover !important;
-    height: 20rem;
+    height: 20rem; /* Fixed height for desktop */
 }
 
 .card-body {
@@ -230,7 +230,7 @@ body {
 ========================================================= */
 #map { 
     height: 400px;
-    width: 100%; /* Base width set to 100% for better layout flow */
+    width: 100%; 
     max-width: 700px; /* Limit width on very large screens */
     margin: 0 auto; /* Center the map */
 }
@@ -295,13 +295,13 @@ body {
 
 /* FIX: Specific style for the label to fix the overlapping text */
 .tax-toggle .form-check-label {
-    white-space: nowrap; /* Prevents text wrap */
+    white-space: nowrap; 
     font-size: 0.85rem;
-    margin: 0; /* Remove default bootstrap margin */
+    margin: 0; 
 }
 
 .tax-toggle .form-check-input {
-    flex-shrink: 0; /* Prevent shrinking on small width */
+    flex-shrink: 0; 
 }
 
 /* =========================================================
@@ -340,24 +340,26 @@ body {
     .filter p {
         font-size: 0.7rem;
     }
+    
+    /* 🛑 FIX: Card Image Height on Tablet/Small Screens 🛑 */
     .card-img-top {
-        height: 14rem;
+        height: 14rem !important; 
     }
 
     /* 🛑 SHOW PAGE LAYOUT FIXES 🛑 */
     /* Override Bootstrap offsets to make content full-width */
     .col-8.offset-3, 
     .col-6.offset-3,
-    .col-8.offset-3 .btns, /* Target the buttons container */
+    .col-8.offset-3 .btns,
     .col-6.offset-3 {
         margin-left: 0 !important;
         margin-right: 0 !important;
         padding-left: 15px !important;
         padding-right: 15px !important;
-        width: 100% !important; /* Ensure they are full width */
+        width: 100% !important; 
     }
     
-    /* Ensure the show-card (listing image and details) takes full width */
+    /* Ensure the show-card takes full width */
     .show-card {
         width: 100% !important; 
         margin-left: 0 !important;
@@ -395,8 +397,9 @@ body {
         font-size: 0.65rem;
     }
 
+    /* 🛑 FIX: Card Image Height on Smallest Screens 🛑 */
     .card-img-top {
-        height: 12rem;
+        height: 10rem !important; /* Shorter height to prevent vertical stretching */
     }
 
     .f-info {
@@ -409,6 +412,6 @@ body {
         gap: 1rem;
     }
     .show-img {
-        height: auto; /* Allow image to scale down naturally */
+        height: auto; 
     }
 }
