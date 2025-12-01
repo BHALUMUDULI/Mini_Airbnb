@@ -226,11 +226,13 @@ body {
 }
 
 /* =========================================================
-   MAP
+   MAP (FIXED BASE STYLE)
 ========================================================= */
 #map { 
     height: 400px;
-    width: 80vh; 
+    width: 100%; /* Base width set to 100% for better layout flow */
+    max-width: 700px; /* Limit width on very large screens */
+    margin: 0 auto; /* Center the map */
 }
 
 /* =========================================================
@@ -303,7 +305,7 @@ body {
 }
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE (FINAL MOBILE OPTIMIZATIONS)
 ========================================================= */
 
 /* Medium Screens (992px) */
@@ -341,6 +343,41 @@ body {
     .card-img-top {
         height: 14rem;
     }
+
+    /* 🛑 SHOW PAGE LAYOUT FIXES 🛑 */
+    /* Override Bootstrap offsets to make content full-width */
+    .col-8.offset-3, 
+    .col-6.offset-3,
+    .col-8.offset-3 .btns, /* Target the buttons container */
+    .col-6.offset-3 {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        width: 100% !important; /* Ensure they are full width */
+    }
+    
+    /* Ensure the show-card (listing image and details) takes full width */
+    .show-card {
+        width: 100% !important; 
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 0 15px;
+    }
+    
+    /* FIX: Adjust map size and ensure it fits the viewport */
+    #map { 
+        height: 300px !important; /* Fixed shorter height for mobile */
+        width: 100% !important;   /* Full width */
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+
+    /* Adjust review card size */
+    .col-5.ms-3 {
+        width: 95% !important;
+        margin-left: 0 !important;
+    }
 }
 
 /* Mobile (576px) */
@@ -370,5 +407,8 @@ body {
     }
     .f-info-links {
         gap: 1rem;
+    }
+    .show-img {
+        height: auto; /* Allow image to scale down naturally */
     }
 }
