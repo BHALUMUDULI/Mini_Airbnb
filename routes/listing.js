@@ -1,54 +1,68 @@
 const express = require("express");
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
-const Booking = require("../models/booking");
-const Listing = require("../models/listing");
-const { isLoggedIn } = require("../middleware");
-const wrapAsync = require("../utils/wrapAsync");
+const Listing = require("../models/listing.js");
+const wrapAsync = require("../utils/wrapAsync.js");
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
+const listingController = require("../controllers/listings.js");
 
-// CREATE BOOKING
-router.post("/", isLoggedIn, wrapAsync(async (req, res) => {
-    const { id } = req.params;
-    const { checkIn, checkOut } = req.body;
+const multer = require("multer");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
 
-    const listing = await Listing.findById(id);
-    if (!listing) {
-        req.flash("error", "Listing not found");
-        return res.redirect("/listings");
-    }
+const mapToken = process.env.MAP_TOKEN;
 
-    // 🔒 Prevent overlapping bookings
-    const existingBookings = await Booking.find({
-        listing: id,
-        status: { $ne: "cancelled" },
-        $or: [
-            { checkIn: { $lt: new Date(checkOut), $gte: new Date(checkIn) } },
-            { checkOut: { $gt: new Date(checkIn), $lte: new Date(checkOut) } }
-        ]
-    });
 
-    if (existingBookings.length > 0) {
-        req.flash("error", "Selected dates are already booked");
-        return res.redirect(`/listings/${id}`);
-    }
+// ===============================
+// INDEX + CREATE ROUTES
+// ===============================
+router.route("/")
+  .get(wrapAsync(listingController.index))
+  .post(
+    isLoggedIn,
+    upload.single("listing[image]"),
+    validateListing,
+    wrapAsync(listingController.createListing)
+  );
 
-    const days =
-        (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24);
 
-    const totalPrice = days * listing.price;
+// ===============================
+// NEW LISTING FORM (USE CONTROLLER)
+// ===============================
+router.get(
+  "/new",
+  isLoggedIn,
+  listingController.renderNewForm
+);
 
-    const booking = new Booking({
-        listing: id,
-        user: req.user._id,
-        checkIn,
-        checkOut,
-        totalPrice
-    });
 
-    await booking.save();
+// ===============================
+// SHOW, UPDATE, DELETE
+// ===============================
+router.route("/:id")
+  .get(wrapAsync(listingController.showListing))
+  .put(
+    isLoggedIn,
+    isOwner,
+    upload.single("listing[image]"),
+    validateListing,
+    wrapAsync(listingController.updateListing)
+  )
+  .delete(
+    isLoggedIn,
+    isOwner,
+    wrapAsync(listingController.destroyListing)
+  );
 
-    req.flash("success", "Booking created successfully!");
-    res.redirect(`/bookings/${booking._id}`);
-}));
+
+// ===============================
+// EDIT FORM
+// ===============================
+router.get(
+  "/:id/edit",
+  isLoggedIn,
+  isOwner,
+  wrapAsync(listingController.renderEditForm)
+);
 
 module.exports = router;
