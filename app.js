@@ -13,6 +13,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const bookingsRouter = require("./routes/bookings.js");
+
 
 // Routers
 const listingsRouter = require("./routes/listing.js");
@@ -38,6 +40,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
+app.use("/listings/:id/bookings", bookingsRouter);
+
 
 // =============================
 // 🔐 SESSION SETUP
