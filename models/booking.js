@@ -29,6 +29,15 @@ const bookingSchema = new Schema({
         enum: ["pending", "confirmed", "cancelled"],
         default: "pending"
     },
+
+    // 🔹 UPI fallback support
+    paymentMethod: {
+        type: String,
+        enum: ["upi"],
+        default: "upi"
+    },
+    paymentReference: String,
+
     createdAt: {
         type: Date,
         default: Date.now

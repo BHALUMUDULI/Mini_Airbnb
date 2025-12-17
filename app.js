@@ -13,7 +13,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
-const bookingsRouter = require("./routes/bookings.js");
+const bookingsRouter = require("./routes/bookings");
+
 
 
 // Routers
@@ -40,7 +41,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
-app.use("/listings/:id/bookings", bookingsRouter);
 
 
 // =============================
@@ -86,6 +86,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.upiLink = req.flash("upiLink");
   res.locals.currUser = req.user;
   next();
 });
@@ -121,6 +122,7 @@ app.get("/terms", (req, res) => {
 // =============================
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/listings/:id/bookings", bookingsRouter);
 app.use("/", userRouter);
 
 // =============================
