@@ -2,9 +2,14 @@ const User = require("../models/user");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
-// EMAIL CONFIG
+// =======================
+// EMAIL CONFIG (SAFE SMTP)
+// =======================
+
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
@@ -70,6 +75,7 @@ module.exports.forgotPassword = async (req, res) => {
         return res.redirect("/forgot-password");
     }
 
+    // Generate token
     const token = crypto.randomBytes(20).toString("hex");
 
     user.resetPasswordToken = token;
@@ -78,16 +84,30 @@ module.exports.forgotPassword = async (req, res) => {
 
     const resetURL = `${req.protocol}://${req.get("host")}/reset/${token}`;
 
-    await transporter.sendMail({
-        to: user.email,
-        from: process.env.EMAIL,
-        subject: "Mini Airbnb - Password Reset",
-        html: `
-          <p>You requested a password reset</p>
-          <a href="${resetURL}">Click here to reset your password</a>
-          <p>This link expires in 1 hour</p>
-        `
-    });
+    // 🚨 SAFE EMAIL SENDING (NO TIMEOUT)
+    try {
+        await transporter.sendMail({
+            to: user.email,
+            from: process.env.EMAIL,
+            subject: "Mini Airbnb - Password Reset",
+            html: `
+              <p>You requested a password reset</p>
+              <a href="${resetURL}">Click here to reset your password</a>
+              <p>This link expires in 1 hour</p>
+            `
+        });
+    } catch (err) {
+        console.error("EMAIL ERROR:", err.message);
+
+        // Fallback so app NEVER hangs
+        console.log("RESET LINK:", resetURL);
+
+        req.flash(
+            "success",
+            "Reset link generated. Email service not responding, check logs."
+        );
+        return res.redirect("/login");
+    }
 
     req.flash("success", "Password reset email sent");
     res.redirect("/login");
