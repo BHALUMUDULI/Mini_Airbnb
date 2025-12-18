@@ -1,20 +1,6 @@
 const User = require("../models/user");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
-
-// =======================
-// EMAIL CONFIG (SAFE SMTP)
-// =======================
-
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD
-    }
-});
+const { sendResetEmail } = require("../utils/sendEmail");
 
 // =======================
 // AUTH CONTROLLERS
@@ -25,20 +11,16 @@ module.exports.renderSignupForm = (req, res) => {
 };
 
 module.exports.signup = async (req, res, next) => {
-    try {
-        const { username, email, password } = req.body;
-        const newUser = new User({ email, username });
-        const registeredUser = await User.register(newUser, password);
+    const { username, email, password } = req.body;
 
-        req.login(registeredUser, err => {
-            if (err) return next(err);
-            req.flash("success", "Welcome to Mini_Airbnb");
-            res.redirect("/listings");
-        });
-    } catch (e) {
-        req.flash("error", e.message);
-        res.redirect("/signup");
-    }
+    const newUser = new User({ email, username });
+    const registeredUser = await User.register(newUser, password);
+
+    req.login(registeredUser, err => {
+        if (err) return next(err);
+        req.flash("success", "Welcome to Mini_Airbnb");
+        res.redirect("/listings");
+    });
 };
 
 module.exports.renderLoginForm = (req, res) => {
@@ -75,41 +57,18 @@ module.exports.forgotPassword = async (req, res) => {
         return res.redirect("/forgot-password");
     }
 
-    // Generate token
     const token = crypto.randomBytes(20).toString("hex");
 
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    user.resetPasswordExpires = Date.now() + 3600000;
     await user.save();
 
     const resetURL = `${req.protocol}://${req.get("host")}/reset/${token}`;
 
-    // 🚨 SAFE EMAIL SENDING (NO TIMEOUT)
-    try {
-        await transporter.sendMail({
-            to: user.email,
-            from: process.env.EMAIL,
-            subject: "Mini Airbnb - Password Reset",
-            html: `
-              <p>You requested a password reset</p>
-              <a href="${resetURL}">Click here to reset your password</a>
-              <p>This link expires in 1 hour</p>
-            `
-        });
-    } catch (err) {
-        console.error("EMAIL ERROR:", err.message);
+    // ✅ NON-BLOCKING EMAIL (IMPORTANT)
+    sendResetEmail(user.email, resetURL);
 
-        // Fallback so app NEVER hangs
-        console.log("RESET LINK:", resetURL);
-
-        req.flash(
-            "success",
-            "Reset link generated. Email service not responding, check logs."
-        );
-        return res.redirect("/login");
-    }
-
-    req.flash("success", "Password reset email sent");
+    req.flash("success", "Password reset link sent to your email");
     res.redirect("/login");
 };
 
@@ -143,6 +102,7 @@ module.exports.resetPassword = async (req, res) => {
     }
 
     await user.setPassword(req.body.password);
+
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.save();
