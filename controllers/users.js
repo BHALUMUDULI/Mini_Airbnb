@@ -60,12 +60,12 @@ module.exports.forgotPassword = async (req, res) => {
     const token = crypto.randomBytes(20).toString("hex");
 
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
 
     const resetURL = `${req.protocol}://${req.get("host")}/reset/${token}`;
 
-    // ✅ NON-BLOCKING EMAIL (IMPORTANT)
+    // ✅ Send email via SendGrid (non-blocking)
     sendResetEmail(user.email, resetURL);
 
     req.flash("success", "Password reset link sent to your email");
@@ -102,7 +102,6 @@ module.exports.resetPassword = async (req, res) => {
     }
 
     await user.setPassword(req.body.password);
-
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.save();

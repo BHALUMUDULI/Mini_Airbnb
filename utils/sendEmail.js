@@ -1,51 +1,33 @@
-const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
 
-// Create transporter once (best practice)
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // TLS
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD
-    },
-    connectionTimeout: 5000,
-    greetingTimeout: 5000,
-    socketTimeout: 5000
-});
+// Configure SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// Verify transporter at startup (optional but helpful)
-transporter.verify(err => {
-    if (err) {
-        console.error("SMTP CONFIG ERROR:", err.message);
-    } else {
-        console.log("SMTP ready to send emails");
-    }
-});
-
-// =======================
-// SEND RESET EMAIL (SAFE)
-// =======================
-
+/**
+ * Send password reset email (non-blocking)
+ * @param {string} to - recipient email
+ * @param {string} resetURL - reset link
+ */
 module.exports.sendResetEmail = async (to, resetURL) => {
+    const msg = {
+        to,
+        from: process.env.EMAIL_FROM, // Verified email in SendGrid
+        subject: "Mini Airbnb - Reset your password",
+        html: `
+            <p>You requested a password reset.</p>
+            <p>
+                <a href="${resetURL}">Click here to reset your password</a>
+            </p>
+            <p>This link will expire in 1 hour.</p>
+            <p>If you did not request this, please ignore this email.</p>
+        `
+    };
+
     try {
-        await transporter.sendMail({
-            from: `"Mini Airbnb" <${process.env.EMAIL}>`,
-            to,
-            subject: "Reset your Mini Airbnb password",
-            html: `
-                <p>You requested a password reset.</p>
-                <p>
-                    <a href="${resetURL}">
-                        Click here to reset your password
-                    </a>
-                </p>
-                <p>This link will expire in 1 hour.</p>
-                <p>If you did not request this, please ignore this email.</p>
-            `
-        });
+        await sgMail.send(msg);
+        console.log(`Reset email sent to ${to}`);
     } catch (err) {
-        // 🚨 Never throw, never block
-        console.error("EMAIL SEND FAILED:", err.message);
+        console.error("SendGrid EMAIL ERROR:", err.message);
+        console.log("RESET LINK (fallback):", resetURL);
     }
 };
