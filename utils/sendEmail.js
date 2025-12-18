@@ -7,25 +7,20 @@ module.exports.sendResetEmail = async (to, resetURL) => {
         await sgMail.send({
             to,
             from: process.env.EMAIL_FROM, // MUST be verified sender
-            subject: "Mini Airbnb - Reset your password",
+            subject: "Mini Airbnb - Password Reset",
             html: `
                 <p>You requested a password reset</p>
-                <p>
-                  <a href="${resetURL}">
-                    Click here to reset your password
-                  </a>
-                </p>
+                <a href="${resetURL}">Click here to reset your password</a>
                 <p>This link expires in 1 hour</p>
             `
         });
 
-        console.log("Password reset email sent to:", to);
-
+        console.log("✅ Reset email sent to:", to);
     } catch (err) {
-        console.error("SendGrid EMAIL ERROR:", err.message);
-        if (err.response?.body) {
-            console.error(err.response.body);
-        }
-        console.log("RESET LINK (fallback):", resetURL);
+        console.error(
+            "❌ SendGrid EMAIL ERROR:",
+            err.response?.body?.errors || err.message
+        );
+        console.log("🔗 RESET LINK (fallback):", resetURL);
     }
 };
