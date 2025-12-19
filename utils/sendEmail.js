@@ -1,26 +1,31 @@
-const sgMail = require("@sendgrid/mail");
+const nodemailer = require("nodemailer");
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_USER, // your gmail
+        pass: process.env.EMAIL_PASS  // 16-digit app password
+    }
+});
 
 module.exports.sendResetEmail = async (to, resetURL) => {
     try {
-        await sgMail.send({
+        await transporter.sendMail({
+            from: `"Mini Airbnb" <${process.env.EMAIL_USER}>`,
             to,
-            from: process.env.EMAIL_FROM, // MUST be verified sender
             subject: "Mini Airbnb - Password Reset",
             html: `
-                <p>You requested a password reset</p>
-                <a href="${resetURL}">Click here to reset your password</a>
-                <p>This link expires in 1 hour</p>
+                <h2>Password Reset Request</h2>
+                <p>You requested to reset your password.</p>
+                <p>Click the link below to reset it:</p>
+                <a href="${resetURL}">${resetURL}</a>
+                <p>This link will expire in 1 hour.</p>
             `
         });
 
-        console.log("✅ Reset email sent to:", to);
+        console.log("✅ Reset email sent successfully");
     } catch (err) {
-        console.error(
-            "❌ SendGrid EMAIL ERROR:",
-            err.response?.body?.errors || err.message
-        );
-        console.log("🔗 RESET LINK (fallback):", resetURL);
+        console.error("❌ Email sending failed:", err.message);
+        throw err;
     }
 };

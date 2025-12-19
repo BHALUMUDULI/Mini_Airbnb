@@ -57,19 +57,31 @@ module.exports.forgotPassword = async (req, res) => {
         return res.redirect("/forgot-password");
     }
 
-    const token = crypto.randomBytes(20).toString("hex");
+    // create secure token
+    const token = crypto.randomBytes(32).toString("hex");
 
-    user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    user.resetPasswordToken = crypto
+        .createHash("sha256")
+        .update(token)
+        .digest("hex");
+
+    user.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
     await user.save();
 
     const resetURL = `${req.protocol}://${req.get("host")}/reset/${token}`;
 
-    // ✅ Send email via SendGrid (non-blocking)
-    sendResetEmail(user.email, resetURL);
+    try {
+        await sendResetEmail(user.email, resetURL);
+        req.flash("success", "Password reset link sent to your email");
+        res.redirect("/login");
+    } catch (err) {
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
 
-    req.flash("success", "Password reset link sent to your email");
-    res.redirect("/login");
+        req.flash("error", "Email could not be sent");
+        res.redirect("/forgot-password");
+    }
 };
 
 // =======================
@@ -77,8 +89,13 @@ module.exports.forgotPassword = async (req, res) => {
 // =======================
 
 module.exports.renderResetPassword = async (req, res) => {
+    const hashedToken = crypto
+        .createHash("sha256")
+        .update(req.params.token)
+        .digest("hex");
+
     const user = await User.findOne({
-        resetPasswordToken: req.params.token,
+        resetPasswordToken: hashedToken,
         resetPasswordExpires: { $gt: Date.now() }
     });
 
@@ -91,8 +108,13 @@ module.exports.renderResetPassword = async (req, res) => {
 };
 
 module.exports.resetPassword = async (req, res) => {
+    const hashedToken = crypto
+        .createHash("sha256")
+        .update(req.params.token)
+        .digest("hex");
+
     const user = await User.findOne({
-        resetPasswordToken: req.params.token,
+        resetPasswordToken: hashedToken,
         resetPasswordExpires: { $gt: Date.now() }
     });
 
@@ -101,7 +123,13 @@ module.exports.resetPassword = async (req, res) => {
         return res.redirect("/forgot-password");
     }
 
+    if (req.body.password !== req.body.confirmPassword) {
+        req.flash("error", "Passwords do not match");
+        return res.redirect("back");
+    }
+
     await user.setPassword(req.body.password);
+
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.save();
