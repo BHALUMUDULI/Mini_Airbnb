@@ -52,7 +52,7 @@ module.exports.renderForgotPassword = (req, res) => {
 module.exports.forgotPassword = async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
 
-    // 🔐 Do not reveal user existence
+    // 🔐 Do not reveal account existence
     if (!user) {
         req.flash(
             "success",
@@ -73,7 +73,10 @@ module.exports.forgotPassword = async (req, res) => {
 
     const resetURL = `${req.protocol}://${req.get("host")}/reset/${token}`;
 
-    // 🚀 Send email WITHOUT blocking response
+    // 🔎 DEBUG (remove later if you want)
+    console.log("🔗 RESET LINK:", resetURL);
+
+    // 🚀 Send email (non-blocking)
     sendResetEmail(user.email, resetURL)
         .then(() => console.log("📧 Reset email sent successfully"))
         .catch(err =>

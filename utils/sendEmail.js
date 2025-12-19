@@ -1,28 +1,32 @@
 const nodemailer = require("nodemailer");
 
-// 🔎 Debug env variables (safe logs)
-console.log("📧 EMAIL_USER:", process.env.EMAIL_USER ? "SET" : "MISSING");
-console.log("📧 EMAIL_PASS:", process.env.EMAIL_PASS ? "SET" : "MISSING");
+// 🔎 Debug (safe)
+console.log("📧 SENDGRID_API_KEY:", process.env.SENDGRID_API_KEY ? "SET" : "MISSING");
+console.log("📧 EMAIL_FROM:", process.env.EMAIL_FROM ? "SET" : "MISSING");
 
-// ✅ Use Gmail service (best for production)
+// ✅ SendGrid SMTP transporter
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.sendgrid.net",
+    port: 587,
+    secure: false,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // Gmail App Password
+        user: "apikey", // ← MUST be literally "apikey"
+        pass: process.env.SENDGRID_API_KEY,
     },
 });
 
-// ✅ Verify transporter (non-blocking)
+// ✅ Verify (non-blocking)
 transporter.verify()
-    .then(() => console.log("✅ Email transporter ready"))
+    .then(() => console.log("✅ SendGrid transporter ready"))
     .catch(err =>
-        console.error("❌ Email transporter error:", err.message)
+        console.error("❌ SendGrid transporter error:", err.message)
     );
 
 async function sendResetEmail(to, resetURL) {
+    console.log("📨 Sending reset email to:", to);
+
     const mailOptions = {
-        from: `"Mini Airbnb" <${process.env.EMAIL_USER}>`,
+        from: `"Mini Airbnb" <${process.env.EMAIL_FROM}>`,
         to,
         subject: "Mini Airbnb - Password Reset",
         html: `
@@ -32,9 +36,6 @@ async function sendResetEmail(to, resetURL) {
             <p>This link expires in 1 hour.</p>
         `,
     };
-
-    // 🔥 Important log
-    console.log("📨 Sending reset email to:", to);
 
     return transporter.sendMail(mailOptions);
 }
