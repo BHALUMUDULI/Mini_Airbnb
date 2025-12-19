@@ -52,13 +52,13 @@ module.exports.renderForgotPassword = (req, res) => {
 module.exports.forgotPassword = async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
 
-    // Security best practice (don’t reveal user existence)
+    // 🔐 Do not reveal user existence
     if (!user) {
         req.flash(
             "success",
             "If an account exists with that email, a reset link has been sent"
         );
-        return res.redirect("/login");
+        return res.redirect("/forgot-password");
     }
 
     const token = crypto.randomBytes(32).toString("hex");
@@ -73,17 +73,18 @@ module.exports.forgotPassword = async (req, res) => {
 
     const resetURL = `${req.protocol}://${req.get("host")}/reset/${token}`;
 
-    // 🚀 DO NOT AWAIT EMAIL (prevents infinite loading)
+    // 🚀 Send email WITHOUT blocking response
     sendResetEmail(user.email, resetURL)
-        .then(() => console.log("📧 Reset email sent"))
-        .catch(err => console.error("📧 Reset email failed:", err.message));
+        .then(() => console.log("📧 Reset email sent successfully"))
+        .catch(err =>
+            console.error("❌ Reset email failed:", err.message)
+        );
 
-    // ✅ Always respond immediately
     req.flash(
         "success",
         "If an account exists with that email, a reset link has been sent"
     );
-    res.redirect("/login");
+    res.redirect("/forgot-password");
 };
 
 // =======================

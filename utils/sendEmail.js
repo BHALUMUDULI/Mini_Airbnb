@@ -1,19 +1,24 @@
 const nodemailer = require("nodemailer");
 
+// 🔎 Debug env variables (safe logs)
+console.log("📧 EMAIL_USER:", process.env.EMAIL_USER ? "SET" : "MISSING");
+console.log("📧 EMAIL_PASS:", process.env.EMAIL_PASS ? "SET" : "MISSING");
+
+// ✅ Use Gmail service (best for production)
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
+    service: "gmail",
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS, // Gmail App Password
     },
 });
 
-// Optional verification (logs only, never blocks app)
+// ✅ Verify transporter (non-blocking)
 transporter.verify()
     .then(() => console.log("✅ Email transporter ready"))
-    .catch(err => console.error("❌ Email transporter error:", err.message));
+    .catch(err =>
+        console.error("❌ Email transporter error:", err.message)
+    );
 
 async function sendResetEmail(to, resetURL) {
     const mailOptions = {
@@ -28,7 +33,9 @@ async function sendResetEmail(to, resetURL) {
         `,
     };
 
-    // Let error bubble to caller (.catch in controller)
+    // 🔥 Important log
+    console.log("📨 Sending reset email to:", to);
+
     return transporter.sendMail(mailOptions);
 }
 
