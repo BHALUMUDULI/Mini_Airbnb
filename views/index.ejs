@@ -3,39 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/main.css">
     <title>Property Listings</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Welcome to Mini Airbnb</h1>
-        <div class="filter-ui">
-            <input type="text" id="searchBar" placeholder="Search properties...">
-            <select id="filterPrice">
-                <option value="">Select Price Range</option>
-                <option value="0-100">$0 - $100</option>
-                <option value="101-200">$101 - $200</option>
-                <option value="201-300">$201 - $300</option>
-            </select>
-            <button id="filterButton">Apply Filters</button>
-        </div>
+        <h1>Mini Airbnb</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
     </header>
     <main>
-        <div class="property-list">
-            <% properties.forEach(function(property) { %>
-                <div class="property-card">
-                    <img src="<%= property.image %>" alt="<%= property.name %>">
-                    <h2><%= property.name %></h2>
-                    <p>Price: $<%= property.price %> per night</p>
-                    <p><%= property.description %></p>
-                    <a href="/property/<%= property.id %>" class="view-details">View Details</a>
-                </div>
-            <% }); %>
-        </div>
+        <section class="filters">
+            <h2>Filter by Category</h2>
+            <ul>
+                <li><a href="#">All</a></li>
+                <li><a href="#">Apartments</a></li>
+                <li><a href="#">Houses</a></li>
+                <li><a href="#">Villas</a></li>
+                <li><a href="#">Cabins</a></li>
+            </ul>
+        </section>
+        <section class="properties">
+            <h2>Available Properties</h2>
+            <div class="property-card">
+                <img src="property1.jpg" alt="Property 1">
+                <h3>Cozy Apartment</h3>
+                <p>Location: Downtown
+                </p>
+                <p>Rating: ★★★★☆</p>
+                <p>Price: $120/night</p>
+            </div>
+            <div class="property-card">
+                <img src="property2.jpg" alt="Property 2">
+                <h3>Beautiful House</h3>
+                <p>Location: Suburb
+                </p>
+                <p>Rating: ★★★★★</p>
+                <p>Price: $250/night</p>
+            </div>
+            <div class="property-card">
+                <img src="property3.jpg" alt="Property 3">
+                <h3>Luxury Villa</h3>
+                <p>Location: Beach Front
+                </p>
+                <p>Rating: ★★★★☆</p>
+                <p>Price: $350/night</p>
+            </div>
+            <!-- Add more property cards as needed -->
+        </section>
     </main>
     <footer>
-        <p>&copy; 2026 Mini Airbnb. All rights reserved.</p>
+        <p>&copy; 2026 Mini Airbnb</p>
     </footer>
-    <script src="/scripts/filter.js"></script>
 </body>
 </html>
