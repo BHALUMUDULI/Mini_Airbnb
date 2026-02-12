@@ -415,3 +415,102 @@ body {
         height: auto; 
     }
 }
+/* =========================================================
+   BOOKING CARD & PAYMENT UI
+========================================================= */
+.booking-card {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    padding: 24px;
+    margin-bottom: 24px;
+    position: sticky;
+    top: 100px; /* Sticky effect on desktop */
+}
+
+.booking-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #222222;
+    margin-bottom: 1rem;
+}
+
+.booking-price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #717171;
+}
+
+.booking-form-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    color: #222222;
+}
+
+.booking-inp {
+    border: 1px solid #b0b0b0;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 0.95rem;
+    width: 100%;
+}
+
+.booking-inp:focus {
+    border-color: #222222;
+    box-shadow: 0 0 0 1px #222222;
+    outline: none;
+}
+
+.reserve-btn {
+    background: linear-gradient(90deg, #e61e4d 0%, #d80565 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 14px 24px;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+    margin-top: 1rem;
+}
+
+.reserve-btn:active {
+    transform: scale(0.98);
+}
+
+.reserve-btn:hover {
+    background: linear-gradient(90deg, #d80565 0%, #e61e4d 100%);
+}
+
+.payment-info {
+    font-size: 0.85rem;
+    text-align: center;
+    color: #717171;
+    margin-top: 1rem;
+}
+
+.alert-upi {
+    background-color: #f8f9fa;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-upi i {
+    color: #e61e4d;
+    font-size: 1.2rem;
+}
+
+.alert-upi small {
+    color: #222222;
+    font-weight: 500;
+    font-size: 0.85rem;
+}

@@ -116,40 +116,48 @@
   <% if (currUser && !listing.owner._id.equals(currUser._id)) { %>
     <hr/>
     
-    <div class="card col-6 offset-3 p-3 mb-4">
-        <h4>Book this stay</h4>
+    <div class="col-8 offset-2 booking-card">
+        <div class="booking-price">
+            &#8377;<%= listing.price.toLocaleString("en-IN") %> <span> / night</span>
+        </div>
     
         <form action="/listings/<%= listing._id %>/bookings" method="POST">
-            <div class="mb-2">
-                <label class="form-label">Check-in</label>
-                <input 
-                    type="date" 
-                    name="checkIn" 
-                    class="form-control"
-                    min="<%= new Date().toISOString().split('T')[0] %>"
-                    required
-                >
+            <div class="row">
+                <div class="col-6">
+                    <label class="booking-form-label">Check-in</label>
+                    <input 
+                        type="date" 
+                        name="checkIn" 
+                        class="booking-inp form-control"
+                        min="<%= new Date().toISOString().split('T')[0] %>"
+                        required
+                    >
+                </div>
+                <div class="col-6">
+                    <label class="booking-form-label">Check-out</label>
+                    <input 
+                        type="date" 
+                        name="checkOut" 
+                        class="booking-inp form-control"
+                        required
+                    >
+                </div>
             </div>
     
-            <div class="mb-2">
-                <label class="form-label">Check-out</label>
-                <input 
-                    type="date" 
-                    name="checkOut" 
-                    class="form-control"
-                    required
-                >
-            </div>
-    
-            <button class="btn btn-dark w-100 mt-2">
+            <button class="reserve-btn mt-3">
                 Reserve
             </button>
         </form>
         
-        <!-- UPI INFO MESSAGE (ADDED HERE) -->
-        <div class="alert alert-info mt-2">
+        <div class="payment-info">
+             You won't be charged yet
+        </div>
+
+        <!-- UPI INFO MESSAGE -->
+        <div class="alert-upi">
+            <i class="fa-solid fa-lock"></i>
             <small>
-                After clicking <b>Reserve</b>, you’ll be redirected to UPI to complete payment.
+                Pay securely with UPI after reservation.
             </small>
         </div>
         
