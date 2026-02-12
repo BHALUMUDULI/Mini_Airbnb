@@ -1,64 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Listings</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>Mini Airbnb</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="filters">
-            <h2>Filter by Category</h2>
-            <ul>
-                <li><a href="#">All</a></li>
-                <li><a href="#">Apartments</a></li>
-                <li><a href="#">Houses</a></li>
-                <li><a href="#">Villas</a></li>
-                <li><a href="#">Cabins</a></li>
-            </ul>
-        </section>
-        <section class="properties">
-            <h2>Available Properties</h2>
-            <div class="property-card">
-                <img src="property1.jpg" alt="Property 1">
-                <h3>Cozy Apartment</h3>
-                <p>Location: Downtown
-                </p>
-                <p>Rating: ★★★★☆</p>
-                <p>Price: $120/night</p>
+<% layout("/layouts/boilerplate") %>
+
+<!-- Enhanced Filter Bar with Modern Design -->
+<div class="filters-section">
+    <div class="filters-header">
+        <h5 class="mb-0">🏠 Explore Properties</h5>
+    </div>
+    
+    <div class="filters-wrapper">
+        <div class="filter-scroll-container">
+            <div class="filter-item" data-category="Villa" onclick="applyFilter('Villa')">
+                <div class="filter-icon"><i class="fa-solid fa-building"></i></div>
+                <span class="filter-label">Villa</span>
             </div>
-            <div class="property-card">
-                <img src="property2.jpg" alt="Property 2">
-                <h3>Beautiful House</h3>
-                <p>Location: Suburb
-                </p>
-                <p>Rating: ★★★★★</p>
-                <p>Price: $250/night</p>
+
+            <div class="filter-item" data-category="Apartment" onclick="applyFilter('Apartment')">
+                <div class="filter-icon"><i class="fa-solid fa-city"></i></div>
+                <span class="filter-label">Apartment</span>
             </div>
-            <div class="property-card">
-                <img src="property3.jpg" alt="Property 3">
-                <h3>Luxury Villa</h3>
-                <p>Location: Beach Front
-                </p>
-                <p>Rating: ★★★★☆</p>
-                <p>Price: $350/night</p>
+
+            <div class="filter-item" data-category="Cottage" onclick="applyFilter('Cottage')">
+                <div class="filter-icon"><i class="fa-solid fa-house"></i></div>
+                <span class="filter-label">Cottage</span>
             </div>
-            <!-- Add more property cards as needed -->
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Mini Airbnb</p>
-    </footer>
-</body>
-</html>
+
+            <div class="filter-item" data-category="House" onclick="applyFilter('House')">
+                <div class="filter-icon"><i class="fa-solid fa-home"></i></div>
+                <span class="filter-label">House</span>
+            </div>
+
+            <div class="filter-item" data-category="Trending" onclick="applyFilter('Trending')">
+                <div class="filter-icon"><i class="fa-solid fa-fire"></i></div>
+                <span class="filter-label">Trending</span>
+            </div>
+
+            <div class="filter-item" data-category="Rooms" onclick="applyFilter('Rooms')">
+                <div class="filter-icon"><i class="fa-solid fa-bed"></i></div>
+                <span class="filter-label">Rooms</span>
+            </div>
+
+            <div class="filter-item" data-category="Iconic cities" onclick="applyFilter('Iconic cities')">
+                <div class="filter-icon"><i class="fa-solid fa-mountain-city"></i></div>
+                <span class="filter-label">Iconic cities</span>
+            </div>
+
+            <div class="filter-item" data-category="Mountains" onclick="applyFilter('Mountains')">
+                <div class="filter-icon"><i class="fa-solid fa-mountain"></i></div>
+                <span class="filter-label">Mountains</span>
+            </div>
+
+            <div class="filter-item" data-category="Castles" onclick="applyFilter('Castles')">
+                <div class="filter-icon"><i class="fa-brands fa-fort-awesome"></i></div>
+                <span class="filter-label">Castles</span>
+            </div>
+
+            <div class="filter-item" data-category="Arctic" onclick="applyFilter('Arctic')">
+                <div class="filter-icon"><i class="fa-solid fa-snowflake"></i></div>
+                <span class="filter-label">Arctic</span>
+            </div>
+
+            <div class="filter-item" data-category="Camping" onclick="applyFilter('Camping')">
+                <div class="filter-icon"><i class="fa-solid fa-campground"></i></div>
+                <span class="filter-label">Camping</span>
+            </div>
+
+            <div class="filter-item" data-category="Farms" onclick="applyFilter('Farms')">
+                <div class="filter-icon"><i class="fa-solid fa-tractor"></i></div>
+                <span class="filter-label">Farms</span>
+            </div>
+
+            <div class="filter-item" data-category="Amazing pool" onclick="applyFilter('Amazing pool')">
+                <div class="filter-icon"><i class="fa-solid fa-person-swimming"></i></div>
+                <span class="filter-label">Amazing pool</span>
+            </div>
+        </div>
+        
+        <!-- Tax Toggle on the right -->
+        <div class="tax-toggle ms-auto">
+            <div class="form-check form-switch form-check-reverse">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Show taxes</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Property Listings Grid -->
+<div class="listings-container mt-4">
+    <div class="listings-grid">
+        <% for(let listing of allListings) { %>
+            <a href="/listings/<%= listing._id %>" class="listing-card-link">
+                <div class="property-card">
+                    <!-- Image Container with Badge -->
+                    <div class="property-image-wrapper">
+                        <img 
+                            src="<%= listing.image.url.replace('/upload', '/upload/w_300') %>" 
+                            class="property-image" 
+                            alt="<%= listing.title %>"
+                            loading="lazy"
+                        />
+                        <div class="property-badge">
+                            <span class="badge-category"><%= listing.category %></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Property Details -->
+                    <div class="property-details">
+                        <h6 class="property-location">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <%= listing.location || listing.title %>
+                        </h6>
+                        
+                        <p class="property-title"><%= listing.title %></p>
+                        
+                        <div class="property-price-section">
+                            <span class="property-price">
+                                &#8377;<%= listing.price.toLocaleString("en-IN") %>
+                            </span>
+                            <span class="property-unit">/ night</span>
+                            <span class="tax-info" style="display: none;">+18% GST</span>
+                        </div>
+                        
+                        <div class="property-footer">
+                            <span class="property-rating">
+                                <i class="fa-solid fa-star"></i> 4.8
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <% } %>
+    </div>
+</div>
+
+<script>
+    function applyFilter(category) {
+        window.location.href = `/listings?category=${category}`;
+    }
+
+    const taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", () => {
+        const taxInfos = document.querySelectorAll(".tax-info");
+        taxInfos.forEach(info => {
+            info.style.display = info.style.display !== "inline" ? "inline" : "none";
+        });
+    });
+</script>
